@@ -197,8 +197,9 @@ DELETE FROM tasks WHERE done = 1;
 This query deleted all tasks whose `done` value was `1`.
 
 ### Database Browser Screenshot
+<img width="588" height="645" alt="image (16)" src="https://github.com/user-attachments/assets/dc0d1497-54ad-4e29-8d73-89e090632b55" />
 
-![Stage 4 DB Browser](screenshots/stage-4-db-browser.png)
+
 
 The changes made directly in DB Browser were reflected immediately by the FastAPI `/tasks` endpoint because both the API and DB Browser use the same `tasks.db` database file.
 
@@ -256,19 +257,7 @@ http://127.0.0.1:8000/docs
 
 The `tasks.db` database is created automatically when the application starts.
 
-### Database Viewer Screenshot
 
-The database was opened and inspected using DB Browser for SQLite.
-
-![Database Browser Screenshot](screenshots/stage-4-db-browser.png)
-
-### SQL Query
-
-```sql
-SELECT * FROM tasks WHERE done = 1;
-```
-
-This query returns all tasks that are marked as completed.
 
 ### Clean Clone Checkpoint
 
