@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from typing import Optional
-from database import initialize_database
+from database import initialize_database, get_connection
 app = FastAPI()
 
 initialize_database()
@@ -25,15 +25,45 @@ def health():
 
 @app.get("/tasks")
 def get_all_tasks():
-    return tasks
+    connection = get_connection()
+
+    rows = connection.execute(
+        "SELECT * FROM tasks"
+    ).fetchall()
+
+    connection.close()
+
+    return [
+        {
+            "id": row["id"],
+            "title": row["title"],
+            "done": bool(row["done"])
+        }
+        for row in rows
+    ]
 
 @app.get("/tasks/{task_id}")
 def get_task(task_id: int):
-    task = next((t for t in tasks if t["id"] == task_id), None)
-    if not task:
-        raise HTTPException(status_code=404, detail={"error": f"Task {task_id} not found"})
-    return task
+    connection = get_connection()
 
+    row = connection.execute(
+        "SELECT * FROM tasks WHERE id = ?",
+        (task_id,)
+    ).fetchone()
+
+    connection.close()
+
+    if row is None:
+        raise HTTPException(
+            status_code=404,
+            detail={"error": f"Task {task_id} not found"}
+        )
+
+    return {
+        "id": row["id"],
+        "title": row["title"],
+        "done": bool(row["done"])
+    }
 # Stage 3: Create a new task with validation and 201 status code
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)
 def create_task(task_data: dict):
