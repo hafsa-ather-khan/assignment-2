@@ -1,15 +1,10 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from typing import Optional
-
+from database import initialize_database
 app = FastAPI()
 
-# In-memory task list
-tasks = [
-    {"id": 1, "title": "read book", "done": False},
-    {"id": 2, "title": "play game", "done": True},
-    {"id": 3, "title": "sleep", "done": False}
-]
+initialize_database()
 
 # Optional: Using Pydantic for request body structure validation
 class TaskCreate(BaseModel):
