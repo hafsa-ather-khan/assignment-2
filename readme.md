@@ -150,6 +150,58 @@ Tasks are currently stored in an **in-memory Python list**.
 
 This means all tasks are reset when the application restarts. No external database is required for this project.
 
+## Stage 4 — SQLite Exploration
+
+I opened `tasks.db` using DB Browser for SQLite and ran the following SQL queries directly against the database.
+
+### SQL Queries
+
+#### 1. Select all tasks
+
+```sql
+SELECT * FROM tasks;
+```
+
+This query returned all tasks stored in the `tasks` table.
+
+#### 2. Select completed tasks
+
+```sql
+SELECT * FROM tasks WHERE done = 1;
+```
+
+This query returned only the tasks that were marked as completed.
+
+#### 3. Count all tasks
+
+```sql
+SELECT COUNT(*) FROM tasks;
+```
+
+This query returned the total number of tasks currently stored in the database.
+
+#### 4. Mark all tasks as completed
+
+```sql
+UPDATE tasks SET done = 1;
+```
+
+This query changed the `done` value of every task to `1`, marking all tasks as completed.
+
+#### 5. Delete completed tasks
+
+```sql
+DELETE FROM tasks WHERE done = 1;
+```
+
+This query deleted all tasks whose `done` value was `1`.
+
+### Database Browser Screenshot
+
+![Stage 4 DB Browser](screenshots/stage-4-db-browser.png)
+
+The changes made directly in DB Browser were reflected immediately by the FastAPI `/tasks` endpoint because both the API and DB Browser use the same `tasks.db` database file.
+
 ## Project Status
 
 🎉 Complete CRUD API implemented and published as part of the FastAPI internship assignments.
