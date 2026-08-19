@@ -202,6 +202,80 @@ This query deleted all tasks whose `done` value was `1`.
 
 The changes made directly in DB Browser were reflected immediately by the FastAPI `/tasks` endpoint because both the API and DB Browser use the same `tasks.db` database file.
 
+## Stage 5 — Publish Your Database Project
+
+### Why SQLite?
+
+SQLite was chosen because it is lightweight, requires no separate database server, uses a single database file, and provides persistent storage for the application. It is simple to set up and is well suited for this task management API.
+
+### Database File
+
+The SQLite database is stored in:
+
+```text
+tasks.db
+```
+
+The file is created automatically when the application starts if it does not already exist. The `tasks` table and the three initial example tasks are also created automatically when needed.
+
+The `tasks.db` file is excluded from Git using `.gitignore`, so anyone cloning the repository starts with a fresh database that is automatically initialized by the application.
+
+### How to Start the Project
+
+1. Clone the repository.
+
+2. Create and activate a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Windows PowerShell:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+3. Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Start the FastAPI server:
+
+```bash
+uvicorn main:app --reload
+```
+
+5. Open the API documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+The `tasks.db` database is created automatically when the application starts.
+
+### Database Viewer Screenshot
+
+The database was opened and inspected using DB Browser for SQLite.
+
+![Database Browser Screenshot](screenshots/stage-4-db-browser.png)
+
+### SQL Query
+
+```sql
+SELECT * FROM tasks WHERE done = 1;
+```
+
+This query returns all tasks that are marked as completed.
+
+### Clean Clone Checkpoint
+
+The project does not require manual database setup. After cloning the repository and running the documented start command, `tasks.db` is automatically created, the `tasks` table is initialized, and the three example tasks are seeded when the database is empty.
+
+
+
 ## Project Status
 
 🎉 Complete CRUD API implemented and published as part of the FastAPI internship assignments.
